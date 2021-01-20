@@ -14,23 +14,23 @@ target_compile_features(${TEST_MAIN} PUBLIC cxx_std_17)
 
 add_test(NAME ${LIBRARY_NAME}.${TEST_MAIN} COMMAND ${TEST_MAIN})
 
-# sudo apt-get install lcov (for macos with brew install lcov)
-# sudo apt-get install gcovr (for macos with brew install gcovr)
-if(USE_GCOV)
+if(ENABLE_CODE_COVERAGE)
+    message("=> ENABLE_CODE_COVERAGE is ON")
     if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|CLang")
+        message("=> Compiler matches GNU or CLang")
         set(COVERAGE_MAIN "${PROJECT}_coverage")
         set(COVERAGE_LCOV_EXCLUDES
-            "${PROJECT_SOURCE_DIR}/external/*"
             "${PROJECT_SOURCE_DIR}/app/*"
+            "${PROJECT_SOURCE_DIR}/benchmarks/*"
+            "${PROJECT_SOURCE_DIR}/external/*"
+            "${PROJECT_SOURCE_DIR}/tests/*"
             "${CONAN_GTEST_ROOT}/*"
             "${CONAN_BOOST_ROOT}/"
             "/usr/include/c++/*")
-        # cd build
-        # cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_GCOV=ON ..
-        # cmake --build . --target CodeCoverage-FB_coverage
             setup_target_for_coverage_lcov(
                 NAME ${COVERAGE_MAIN}
                 EXECUTABLE ctest
             DEPENDENCIES ${TEST_MAIN})
+        message("=> setup code coverage target")
     endif()
 endif()

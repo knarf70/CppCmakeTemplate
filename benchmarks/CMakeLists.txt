@@ -1,4 +1,4 @@
-if(USE_BENCHMARKS)
+if(ENABLE_BENCHMARKS)
     set(BENCHMARK_SOURCES   "main.cc")
     set(BENCHMARK_MAIN      "${PROJECT}_benchmarks")
 
@@ -6,6 +6,8 @@ if(USE_BENCHMARKS)
         set(BENCHMARK_FLAGS "/Ox")
     elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
         set(BENCHMARK_FLAGS "-O3")
+    else()
+        set(BENCHMARK_FLAGS "")
     endif()
 
     add_executable(${BENCHMARK_MAIN} ${BENCHMARK_SOURCES})
@@ -13,8 +15,4 @@ if(USE_BENCHMARKS)
     target_compile_features(${BENCHMARK_MAIN} PUBLIC cxx_std_17)
     target_link_libraries(${BENCHMARK_MAIN} PUBLIC ${LIBRARY_NAME})
     target_link_libraries(${BENCHMARK_MAIN} PUBLIC ${LIBRARY_BENCH})
-        # cd build
-        # cmake -DCMAKE_BUILD_TYPE=Release -DUSE_BENCHMARKS=ON ..
-        ## cmake --build . --target BenchmarkingAndLogging-FB_benchmarks
-        # make BenchmarkingAndLogging-FB_benchmarks
 endif()

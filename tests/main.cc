@@ -36,7 +36,7 @@ TEST(TestSuite_MyLib, Test_Vector)
     linalg::aliases::float3 expectedResult{1, 2, 3};
     linalg::aliases::float3 result = print_linalg_vector();
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 3; ++i)
     {
         ASSERT_EQ(expectedResult[i], result[i]);
     }

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 
-set(PROJECT "BenchmarkingAndLogging-FB")
+set(PROJECT "CppTemplate")
 
 project("${PROJECT}_Project" VERSION 1.2.3 LANGUAGES CXX)
 
@@ -18,8 +18,8 @@ set(MAIN            "${PROJECT}_Executable")
 set(TEST_MAIN       "${PROJECT}_unit_tests")
 
 # Options
-option(USE_GCOV         "Create a GCov-enabled build." OFF)
-option(USE_BENCHMARKS   "Create a Benchmark-enabled build." OFF)
+option(ENABLE_CODE_COVERAGE "Enable a Code Coverage build."                 OFF)
+option(ENABLE_BENCHMARKS    "Enable a Benchmark build"                      ON)
 
 # Configuration Files
 configure_file("${PROJECT_SOURCE_DIR}/include/ProjectConfig.h.in"
@@ -29,7 +29,9 @@ configure_file("${PROJECT_SOURCE_DIR}/include/ProjectConfig.h.in"
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
 include(Documentation)
 include(CTest)
-if(USE_GCOV)
+# include(ConfigSafeGuards)
+# include(Warnings)
+if(ENABLE_CODE_COVERAGE)
     if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|CLang")
         include(CodeCoverage)
     else()
