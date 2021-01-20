@@ -11,7 +11,7 @@ matrix:
       addons:
         apt:
           sources:
-              - 'ubuntu-toolchain-r-test'
+            - "ubuntu-toolchain-r-test"
           packages:
             - g++-7
             - lcov
@@ -33,7 +33,7 @@ install:
   - pip install --user conan
   - source ~/.profile
   - conan user
-  - conan install ..
+  - conan install -s compiler.libcxx=libstdc++11 ..
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then
     cmake -DCMAKE_BUILD_TYPE=Coverage -DENABLE_CODE_COVERAGE=On .. ;
     fi
@@ -42,13 +42,13 @@ install:
     fi
   - make
 script:
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; 
-    then make CppTemplate_coverage;   
+  - if [ "$TRAVIS_OS_NAME" = "linux" ];
+    then make CppTemplate_coverage;
     fi
-  - if [ "$TRAVIS_OS_NAME" = "osx"   ]; 
-    then make CppTemplate_unit_tests; 
+  - if [ "$TRAVIS_OS_NAME" = "osx"   ];
+    then make CppTemplate_unit_tests;
     ctest;
-    fi 
+    fi
 after_success:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then  bash <(curl -s https://codecov.io/bash); fi
 notifications:
